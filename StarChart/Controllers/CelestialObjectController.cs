@@ -19,6 +19,8 @@ namespace StarChart.Controllers
         {
             var maybeObject = _context.CelestialObjects.Find(id);
 
+            maybeObject.Satellites.Select(x => x.Id).ToList();
+
             if (maybeObject == null)
                 return NotFound();
 
