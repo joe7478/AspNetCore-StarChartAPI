@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using StarChart.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace StarChart.Controllers
 {
@@ -17,9 +18,9 @@ namespace StarChart.Controllers
         [HttpGet("{id:int}", Name ="GetById")]
         public IActionResult GetById(int id)
         {
-            var maybeObject = _context.CelestialObjects.Find(id);
 
-            maybeObject.Satellites.Select(x => x.Id).ToList();
+            var maybeObject = _context.CelestialObjects.Include(x => x.Satellites)
+                .SingleOrDefault(x => x.Id == id);
 
             if (maybeObject == null)
                 return NotFound();
